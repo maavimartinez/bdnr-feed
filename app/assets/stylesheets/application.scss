@@ -1,0 +1,733 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome";
+@import "bootstrap-datepicker3";
+
+html{
+    height:100vh;
+}
+
+img{
+    height:50px;
+    width:auto;
+}
+
+.company-name{
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+body{
+    height:100vh;
+    background-color: #e9e8e8
+}
+
+h1{
+    font-size: 70px;
+}
+
+#welcome-title{
+    font-size:70px;
+    font-weight: 200;
+    color:#ffa726;
+}
+
+#welcome-name{
+    align-self: center;
+    font-size:30px;
+    font-weight: 300;
+    color:#ffa726;
+}
+
+#repository-name{
+    align-self: center;
+    margin-top:50px;
+    font-size:25px;
+    font-weight: 200;
+    color:#ffa726;
+}
+
+#btn-enter{
+    position:absolute;
+    right:10px;
+    top:10px;
+    font-size: 20px;
+    background: #ffa726;
+    text-align: center;
+    padding: 10px;
+    font-weight: 600;
+    color: white;
+    float:right;
+    height:45px;
+    width:200px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 200;
+}
+
+#btn-enter:hover {
+    color: white;
+    background: #fb8c00;
+}
+
+#enterDiv {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.new-invite-table {
+    width: 40%;
+    text-align: center;
+    position: relative;
+    top: 10%;
+    background-color: #ffa726;
+    border-radius: 10px;
+    color: white;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 3px 3px 5px #c2c2c2;
+}
+
+#text-new-invite{
+    padding-top:3%;
+}
+
+#form-new-invite{
+    padding-top:3%;
+}
+
+.promTable {
+    margin: 0 auto;
+    position: relative;
+    top: 15%;
+    width: 80%;
+    background: white;
+    border-collapse: inherit;
+    border: 0px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 3px 3px 5px rgb(194, 194, 194);
+}
+
+thead{
+    text-transform: uppercase;
+    color:#fb8c00;
+}
+
+th{
+    font-weight: 300!important;
+}
+
+.promTable tr:hover {
+    background: #8080800f;
+}
+
+.newCoupon {
+    margin: 0 auto;
+    position: relative;
+    top: 5%;
+}
+
+.newCoupon input {
+    font-size: 16px;
+    padding: 3px 5px;
+    border-radius: 20px;
+    border-width: 0px;
+    width:100%;
+    outline: none;
+    background-color:#e4e2e2;
+}
+
+.newCoupon select {
+    font-size: 16px;
+    padding: 3px 5px;
+    border-radius: 5px;
+    border-width: 0px;
+    outline: none;
+}
+
+table.newCoupon td {
+    padding: 5px;
+    font-size: 16px;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+.navBarDiv {
+    background: white;
+    box-shadow: 3px 3px 5px rgb(194, 194, 194);
+    color:#a3a3a3;
+    height: 60px;
+}
+
+.navBarDiv li {
+    display: inline;
+    font-size: 18px;
+    padding: 5px;
+    color:#a3a3a3;
+    line-height: 60px;
+}
+
+.navBarDiv a {
+    text-decoration: none;
+    color: #a3a3a3;
+    font-weight: 200;
+    padding: 10px;
+}
+
+.navBarDiv a:hover {
+    color : white;
+    background-color : #ffa726;
+    border-radius: 10px;
+}
+
+.navbarLogout {
+    float: right;
+    margin-right: 20px;
+    color: white;
+}
+
+.operator {
+    margin: 0 5px;
+}
+
+.condition1 {
+    margin: 5px 0;
+    width: auto !important;
+}
+
+.condition2 {
+    margin: 5px;
+    width: auto !important;
+}
+
+.addGroup {
+    margin-left: 10px;
+}
+
+.addCondition {
+    cursor: pointer;
+}
+
+.addCondition:hover {
+    text-decoration: none !important;
+}
+
+.groupDiv {
+    margin-left: 15px;
+    border: 2px solid #00000094;
+    padding: 5px !important;
+    margin: 5px 0;
+    width: fit-content;
+    border-radius: 5px;
+}
+
+#register-card {
+    background-color: white;
+    width: 50% !important;
+    border-radius: 10px;
+    color: #494949;
+    box-shadow: 3px 3px 5px rgb(194, 194, 194);
+    position: relative;
+    top: 10%;
+    left:25%;
+    height:85vh;
+    padding: 20px;
+}
+
+#new-promotion-card {
+    background-color: white;
+    width: 50% !important;
+    border-radius: 10px;
+    color: #494949;
+    box-shadow: 3px 3px 5px rgb(194, 194, 194);
+    position: relative;
+    top: 10%;
+    left:25%;
+    height:auto;
+    padding: 20px;
+}
+
+label{
+    font-weight: 200;
+}
+
+h4{
+    font-weight: 200;
+    margin-left:-10px;
+}
+
+.custom-file{
+    background-color:rgb(94, 196, 98);
+    width: 50%;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.custom-file-label{
+    color:white;
+}
+
+
+//LOGIN
+
+#login-card {
+    background-color: white;
+    width: 40% !important;
+    border-radius: 10px;
+    color: #494949;
+    box-shadow: 3px 3px 5px rgb(194, 194, 194);
+    position: relative;
+    top: 20%;
+    left: 30%;
+    padding: 20px;
+}
+
+.loginField {
+    width: 200px;
+    font-size: 16px;
+    outline: none;
+    margin: 5px;
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+.login-text-field{
+    border-radius: 50px;
+    border-width: 0px;
+    height:100%;
+    margin-bottom:3%;
+    color: #494949;
+    margin-left:13%;
+    width: 80%;
+}
+
+.loginBtn {
+    width: 200px;
+    border-radius: 50px;
+    border-width: 0px;
+    height: 30px;
+    font-size: 18px;
+    color: #494949;
+    background: white;
+    outline: none;
+}
+
+#promotionBtn {
+    border: none;
+    width: 110px;
+    border-radius: 10px;
+    height: 30px;
+    font-size: 17px;
+    color: white;
+    background: #ffa726;
+    outline: none;
+}
+
+#promotionBtn:hover {
+    border: none;
+    width: 110px;
+    border-radius: 10px;
+    height: 30px;
+    font-size: 17px;
+    color: #ffa726;
+    background-color: white;
+    border:1px solid #ffa726;
+    outline: none;
+}
+
+.loginBtn:hover {
+    background: #F1D09A;
+}
+
+.form-control{
+    border-radius:50px!important;
+    font-size: 16px!important;
+    font-weight: 200;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.field {
+    width:80%;
+    margin-left:13%;
+    color: black;
+    text-align: center;
+}
+
+.form-group > label{
+   display: none;
+}
+
+.form-group{
+    margin-left:4%;
+    width:80%;
+}
+
+.card{
+    width: 40%!important;
+    margin-left: 30%;   
+    height: 40vh!important;
+    background-color:white;
+}
+
+.card-title{
+    font-size: 60px;
+    font-weight: 200;
+    text-align: center;
+}
+
+.register-card-title{
+    padding-top:0%;
+    font-size: 60px;
+    font-weight: 200;
+}
+
+#avatar{
+    height:30vh;
+    width: 30vh;
+    border-radius: 50%;
+    border-width: 0px;
+    background-color: white;
+}
+
+.card-link:hover{
+    color:rgb(14, 143, 78);
+}
+
+.card-link {
+    color: #fb8c00;
+    font-size: 24px;
+    padding-left:6px;
+    font-weight: 400;
+}
+
+#btn-login{
+    background-color:#fa9b4dd6;
+    color:white;
+}
+
+.loginBtn{
+    margin-top:10px;
+    margin-bottom:10px;
+    background: linear-gradient(60deg,#ffa726,#fb8c00);
+    border-radius:20px;
+    height:40px;
+    width: 30%;
+    color:white;
+}
+
+#dont-account{
+    font-size: 15px;
+}
+
+.operator {
+    margin: 0 5px;
+}
+
+.condition1 {
+    margin: 5px 0;
+}
+
+.condition2 {
+    margin: 5px;
+}
+
+.addGroup {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.addGroup:hover {
+    text-decoration: none !important;
+}
+
+.groupDiv {
+    margin-left: 15px;
+    border: 1px solid black;
+    padding: 5px !important;
+    margin: 5px 0;
+}
+
+#errLabel {
+    color: red;
+    display: none;
+}
+
+
+////////promotions index
+
+.dashboard-container{
+    margin-left:260px;
+    height:100vh;
+    color:#474747
+}
+
+#promotions-card{
+    border-radius: 10px;
+    width: 80% !important;
+    margin: 0 auto;
+    position: relative;
+    top: 10%;
+}
+
+.table-responsive{
+    overflow: auto;
+    padding-bottom:10px;
+    height:100%;
+}
+
+#promotions-card-title{
+    padding-left:30px;
+    padding-top:8px!important;
+}
+
+#promotions-title{
+    font-weight: 200;
+    font-size: 55px;
+    margin-bottom:20px;
+}
+
+table.promTable td {
+    height: 35px;
+}
+
+.searchDiv {
+    width: 80%;
+    text-align: center;
+    position: relative;
+    top: 10%;
+    background-color:#ffa726;
+    border-radius:10px;
+    color:white; 
+    margin-left:10%;
+    height:10%;
+    padding-top:1.5%;
+    box-shadow: 3px 3px 5px rgb(194, 194, 194);
+}
+
+.searchField {
+    border-radius: 5px;
+    border-width: 0px;
+    color: #494949;
+    height: 30px;
+    padding: 5px;
+    outline: none;
+    font-size: 16px;
+}
+
+.searchLbl {
+    font-size: 17px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.searchBtn {
+    border:none;
+    border-radius: 10px;
+    width: 140px;
+    height: 30px;
+    font-size: 18px;
+    color: #fb8c00;
+    background: white;
+    margin-left: 20px;
+    outline: none;
+}
+
+.searchBtn:hover {
+    border: 1px solid white;
+    background: #ffa726;
+    color: white;
+}
+
+#promotions-body{
+    height:80%;
+}
+
+.link-edit img{
+    width: 30px;
+    height: auto;
+}
+
+.show_promotion{
+    padding: 10px;
+    width: 60%;
+    margin: 0 auto;
+    height:auto;
+    text-align: center;
+    box-shadow: 3px 3px 5px #c2c2c2;
+    border-collapse: inherit;
+    border-radius: 10px;
+    background: white;
+    top: 15%;
+    position: relative;
+}
+
+.edit-promotion{
+    padding: 10px;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    border-collapse: inherit;
+    border-radius: 10px;
+    background: white;
+    position: relative;
+    top: 10%;
+    box-shadow: 3px 3px 5px #c2c2c2;
+}
+
+.edit-promotion-h3{
+    font-weight: 300;
+    font-size:15px;
+}
+
+.promotion_edit{
+    text-align: right;
+    padding-right : 30px;
+}
+
+.link-show{
+    color:rgb(76, 117, 231)!important;
+}
+
+.link-delete img {
+    width: 30px;
+    height: auto;
+}
+
+.welcome {
+    //background-image: image-url('coupon.png');
+    background-color:#e9e9e9;
+    height: 100vh;
+    position: relative;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.welcomeInner {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 400px;
+    height: 300px;
+}
+
+#createToken {
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.btn-secondary{
+    background:linear-gradient(60deg,#ffa726,#fb8c00);
+    border-radius: 30px!important;
+    border-width: 0px!important;
+    width:40%!important;
+    height:30px!important;
+    margin-left:30%;
+    color:white!important;
+    font-size:14px!important;
+    font-weight:200!important;
+}
+
+.reportTable {
+    margin: 0 auto;
+    position: relative;
+    top: 15%;
+    width: 30%;
+    background: white;
+    border-collapse: inherit;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 3px 3px 5px #c2c2c2;
+}
+
+.reportTable tr:hover {
+    background: #8080800f;
+}
+
+.reportTable td, th {
+    height: 30px;
+    font-size: 16px;
+}
+
+
+.demographicReportTable {
+    margin: 0 auto;
+    position: relative;
+    top: 15%;
+    width: 50vw;
+    background: white;
+    border-collapse: inherit;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 3px 3px 5px #c2c2c2;
+}
+
+.demographicReportTable tr:hover {
+    background: #8080800f;
+}
+
+.demographicReportTable td, th {
+    height: 30px;
+    width:30vw;
+    font-size: 16px;
+}
+
+.notice {
+    font-size: 14px;
+    color: red;
+    font-weight: 600;
+}
+
+.editPromotion {
+    border: none;
+    border-radius: 10px;
+    height: 30px;
+    font-size: 17px;
+    color: white;
+    background: #ffa726;
+    outline: none;
+}
+
+.editPromotion:hover {
+    background: white;
+    color: #ffa726;
+}
+
+.editTA {
+    font-size: 16px;
+    padding: 3px 5px;
+    border-radius: 20px;
+    border-width: 0px;
+    width: 200px;
+    height: 200px;
+    background-color: #e4e2e2;
+    outline: none;
+}
+
+#alert {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #721c24;
+    padding-right: 4rem;
+    padding: 20px;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 50px;
+    font-size: 18px;
+    border: 2px solid;
+    border-radius: 25px;
+    text-align: center;
+}
+

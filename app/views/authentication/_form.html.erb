@@ -1,0 +1,16 @@
+
+<%= form_with url: '/auth/login' do |form| %>
+  
+    <div class="field">
+      <%= form.text_field :email , class: 'loginField', placeholder: 'Email address'%>
+    </div>
+  
+    <div class="field">
+      <%= form.password_field :password, class: 'loginField', placeholder: 'Password' %>
+    </div>
+  
+    <a class="card-link actions">
+      <%= form.submit %>
+    </a>
+<% end %>
+  

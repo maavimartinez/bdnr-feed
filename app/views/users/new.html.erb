@@ -1,0 +1,39 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet" />
+<div class="welcome">
+  <div id="register-card">
+        <%= bootstrap_form_with url: '/users' do |form| %>
+            <h1 class="register-card-title">Register</h1>
+        
+            <div class="row">
+          <div class="login-text-field">
+            <%= form.text_field :name, placeholder:"Name", required: true%>
+          </div>
+        </div>
+        <div class="row">
+          <div class="login-text-field">
+            <%= form.text_field :surname, placeholder:"Surname", required: true%>
+          </div>
+        </div>
+        <div class="row">
+          <div class="login-text-field">
+            <%= form.email_field :email, placeholder:"Email", required: true%>
+          </div>
+        </div>
+        <div class="row">
+          <div class="login-text-field">
+          <%= form.password_field :password, placeholder:"Password", required: true, minlength: 6 %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="login-text-field">
+          <%= form.password_field :confirm_password, placeholder:"Confirm password", required: true, minlength: 6%>
+          </div>
+        </div>
+        <div class="row">
+            <%= form.submit %>
+        </div>
+        <div class="notice" style="text-align: center; margin-top: 20px"><%= notice %></div>
+        <% end %>
+        <a class="card-link" href="/welcome"> Back </a>
+        </div>
+</div> 
