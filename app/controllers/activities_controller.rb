@@ -13,16 +13,14 @@ class ActivitiesController < ApplicationController
         @repos.push(@aux)
       end
       aux = 'user_'+@current_user['id'].to_s+'_feed';
-      @activities = Array.new
-      @allActivities =  Rails.cache.fetch(aux) 
-      if !@allActivities
-         @activities = []
-      else
-        @array = @allActivities.split('.')
-        @array.each do |acId|
-            @activities.push(Rails.cache.fetch(acId))
-        end
-      end
+      @activities = REDIS.lrange(aux, 0, REDIS.llen(aux))
+    # while REDIS.llen(aux) > 0
+        
+    #    activities.each do |act|
+          # send email code here
+          #REDIS.lrem(aux, 1, act)
+    #    end
+    #   end
     end
 
     def fill     
@@ -30,13 +28,9 @@ class ActivitiesController < ApplicationController
         @json.each do |ac|
             @repo = Repository.find(ac[:repository_id])
             @users = RepositoriesUser.where(repository_id: ac[:repository_id]).all()
-            @guid = SecureRandom.uuid
-            Rails.cache.write(@guid, {repository: @repo.name, description:ac[:description], type: ac[:type], date: DateTime.now()})
             @users.each do |user|
                 @aux = 'user_'+user.user_id.to_s+'_feed';
-                @feed = Rails.cache.fetch(@aux)
-                !@feed ? @feed = @guid : @feed = @guid+"."+@feed
-                Rails.cache.write(@aux, @feed)
+                REDIS.lpush(@aux,  {repository: @repo.name, description:ac[:description], type: ac[:type], date: DateTime.now()})
             end
         end
         redirect_to '/home'
