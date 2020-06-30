@@ -83,4 +83,4 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  url: postgres://xamewjjinldguj:72eae4ea750b4fba8d5c68c9f5ae640c4afa0774bb7732949a080c25ba1135af@ec2-54-161-208-31.compute-1.amazonaws.com:5432/d6aaoitb7s2iej
