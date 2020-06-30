@@ -39,10 +39,10 @@
   <tbody>
     <% @activities.each do |activity| %>
         <tr>  
-        <td><%= activity[:repository]%></td>
-        <td><%= activity[:description]%></td>
-        <td><%= activity[:type]%></td>
-        <td><%= activity[:date]%></td>
+        <td><%= activity['repository']%></td>
+        <td><%= activity['description']%></td>
+        <td><%= activity['type']%></td>
+        <td><%= activity['date']%></td>
         </tr>
       <% end %>
   </tbody>
