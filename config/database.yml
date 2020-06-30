@@ -83,6 +83,4 @@ test:
 #
 production:
   <<: *default
-  database: activityfeed_production
-  username: activityfeed
-  password: <%= ENV['ACTIVITYFEED_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
