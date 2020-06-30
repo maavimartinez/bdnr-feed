@@ -1,50 +1,53 @@
 <!--<p id="notice"><%= notice %></p>-->
-<div class="welcome">
-<a id="btn-enter" href="/activities/fill">Get Data</a> 
-<h2 id="welcome-name">Bienvenid@ <%=@current_user['name'] %></h2>
-<h2 id="repository-name">Repositorios</h2>
-<div class="repositories">
+<div class="home">
+<div class="navbarr">
+  <h2 class="navbar-title">GitHub</h2>
+  <a class="btn-get-data" href="/activities/fill">Get Data</a> 
+</div>
+<div class="main-container">
+<div class="left-container">
+<div class="user-card">
+<h2 class="user-name"><%=@current_user['name'].gsub(/\s+/, "").downcase %></h2>
+</div>
+<div class="repos-card">
+<h2 class="repositories-name">Repositorios</h2>
 
-<table class="promTable">
+<table class="repositoriesTable">
   <thead>
     <tr>
-      <th>Nombre</th>
-      <th>Descripcion</th>
-      <th>Creador</th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @repos.each do |repository| %>
         <tr>  
-        <td><%= repository[:name]%></td>
-        <td><%= repository[:description]%></td>
-        <td><%= repository[:creator]%></td>
+        <td class="repo"><%= repository[:creator].gsub(/\s+/, "").downcase+"/"+repository[:name].gsub(/\s+/, "").downcase%></td>
         </tr>
       <% end %>
   </tbody>
 </table>
-
 </div>
-<h2 id="repository-name">Feed</h2>
-<table class="promTable">
-  <thead>
-    <tr>
-      <th>Repositorio</th>
-      <th>Descripcion</th>
-      <th>Tipo</th>
-    </tr>
-  </thead>
+<div class="user-card">
+</div>
+</div>
 
-  <tbody>
+<div class="right-container">
     <% @activities.each do |activity| %>
-        <tr>  
-        <td><%= activity['repository']%></td>
-        <td><%= activity['description']%></td>
-        <td><%= activity['type']%></td>
-        <td><%= activity['date']%></td>
-        </tr>
+      <div class="activity-item">
+      <div class="title-row">
+        <h3><%=activity['title']%></h3>
+      </div>
+      <div class="description-card">
+      <div class="title-row">
+      <%=activity['description']%>
+      </div>
+      <div class="title-row">
+      <%=activity['date']%>
+      </div>
+      </div>
+      </div>
       <% end %>
-  </tbody>
-</table>
+</div>
+</div>
 </div>

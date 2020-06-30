@@ -5,6 +5,7 @@ class AuthenticationController < ApplicationController
   def show; end
 
   def login
+    session.delete(:current_user)
     @user = User.find_by_email(params[:email])
     if !(@user && @user.authenticate(params[:password]))
       redirect_to '/auth/login', notice: 'Email/contraseña invalidos'

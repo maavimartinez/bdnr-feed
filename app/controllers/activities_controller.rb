@@ -12,28 +12,39 @@ class ActivitiesController < ApplicationController
         @aux = {name: @repo.name, description: @repo.description, creator: @us.name + " " + @us.surname}
         @repos.push(@aux)
       end
-      aux = 'user_'+@current_user['id'].to_s+'_feed';
-      @activities = REDIS.lrange(aux, 0, REDIS.llen(aux))
-    # while REDIS.llen(aux) > 0
-        
-    #    activities.each do |act|
-          # send email code here
-          #REDIS.lrem(aux, 1, act)
-    #    end
-    #   end
+      aux = 'user_'+@current_user['id'].to_s+'_activi_feed';
+      @act = REDIS.lrange(aux, 0, REDIS.llen(aux))
+      @activities = Array.new
+      @act.each do |ac|
+        ret = JSON.parse(ac)
+        @activities.push(ret)
+      end
     end
 
     def fill     
         @json = get_json()
         @json.each do |ac|
-            @repo = Repository.find(ac[:repository_id])
-            @users = RepositoriesUser.where(repository_id: ac[:repository_id]).all()
+            @repo = Repository.find(ac[:repository][:id])
+            @users = RepositoriesUser.where(repository_id: ac[:repository][:id]).all()
             @users.each do |user|
-                @aux = 'user_'+user.user_id.to_s+'_feed';
-                REDIS.lpush(@aux,  {repository: @repo.name, description:ac[:description], type: ac[:type], date: DateTime.now()})
+                @aux = 'user_'+user.user_id.to_s+'_activi_feed';
+                title = getTitle(ac)
+                REDIS.lpush(@aux,  ({title:title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: Time.zone.now.to_s(:short)}).to_json)
             end
         end
         redirect_to '/home'
+    end
+
+    def getTitle(activity)
+        case activity[:type]
+        when 1
+            return activity[:user][:username] + " pushed to " + activity[:repository][:name].gsub(/\s+/, "").downcase
+        when 2
+            return activity[:user][:username] + " followed " + activity[:repository][:name].gsub(/\s+/, "").downcase
+        when 3
+            return activity[:user][:username] + " ha creado el repositorio " + activity[:repository][:name].gsub(/\s+/, "").downcase #tengo que mandarle el nombre o lo busco en la bdd?
+        else
+        end
     end
   
     # GET /users/1
@@ -57,34 +68,107 @@ class ActivitiesController < ApplicationController
     end
 
     def get_json()
-        return [{
-            repository_id: 1, 
+        return [
+            {
+                repository:{
+                    id: 1, 
+                    name:"Repo Mavi"
+                },
+                user:{
+                    id: 1, 
+                    name: "Maria Victoria",
+                    surname: "Martínez",
+                    email: "maavimartinez@gmail.com",
+                    username: "maavimartinez"
+                },
+                description: "",
+                type: 3
+            },
+            {
+                repository:{id: 1, 
+                name:"Repo Mavi"
+            },
+            user:{
+                id: 1, 
+                name: "Maria Victoria",
+                surname: "Martínez",
+                email: "maavimartinez@gmail.com",
+                username: "maavimartinez"
+            },
+            description: "1 commit to develop",
+            type: 1
+        },
+        {
+            repository:{id: 1, 
+            name:"Repo Mavi"
+        },
             description: "Maria Victoria ha realizado un nuevo commit",
+            user:{
+                id: 1, 
+                name: "Maria Victoria",
+                surname: "Martínez",
+                email: "maavimartinez@gmail.com",
+                username: "maavimartinez"
+            },
+            description: "1 commit to develop",
             type: 1
         },
         {
-            repository_id: 1, 
-            description: "Maria Victoria ha realizado un nuevo commit",
+            repository:{id: 2, 
+            name:"Repo Juan"
+        },
+            user:{
+                id: 1, 
+                name: "Juan",
+                surname: "Drets",
+                email: "jdrets@hotmail.com",
+                username: "juandrets"
+            },
+            description: "1 commit to develop",
             type: 1
         },
         {
-            repository_id: 2, 
-            description: "Juan ha realizado un nuevo commit",
-            type: 1
-        },
-        {
-            repository_id: 3, 
-            description: "Maria Victoria ha seguido el repositorio",
+            repository:{
+                id: 3, 
+                name:"Repo Pale"
+            },
+            user:{
+                id: 1, 
+                name: "Maria Victoria",
+                surname: "Martínez",
+                email: "maavimartinez@gmail.com",
+                username: "maavimartinez"
+            },
+            description: "Repositorio : RepoPale",
             type: 2
         },
         {
-            repository_id: 3, 
-            description: "Juan ha seguido el repositorio",
+            repository:{id: 3, 
+            name:"Repo Pale"
+        },
+            user:{
+                id: 1, 
+                name: "Juan",
+                surname: "Drets",
+                email: "jdrets@hotmail.com",
+                username: "juandrets"
+            },
+            description: "Repositorio : RepoPale",
             type: 2
         },
         {
-            repository_id: 3, 
-            description: "Federico ha realizado un nuevo commit",
+            repository:{
+                id: 3, 
+                name:"Repo Pale"
+            }, 
+            user:{
+                id: 1, 
+                name: "Federico",
+                surname: "Palermo",
+                email: "pale99@gmail.com",
+                username: "pale99"
+            },
+            description: "1 commit to develop",
             type: 1
         }
     ]
