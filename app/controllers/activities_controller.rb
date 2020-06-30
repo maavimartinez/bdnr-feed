@@ -12,7 +12,7 @@ class ActivitiesController < ApplicationController
         @aux = {name: @repo.name, description: @repo.description, creator: @us.name + " " + @us.surname}
         @repos.push(@aux)
       end
-      aux = 'user_'+@current_user['id'].to_s+'_activi_feed';
+      aux = 'user_'+@current_user['id'].to_s+'_activ_feed';
       @act = REDIS.lrange(aux, 0, REDIS.llen(aux))
       @activities = Array.new
       @act.each do |ac|
@@ -24,25 +24,28 @@ class ActivitiesController < ApplicationController
     def fill     
         @json = get_json()
         @json.each do |ac|
-            @repo = Repository.find(ac[:repository][:id])
-            @users = RepositoriesUser.where(repository_id: ac[:repository][:id]).all()
+            @auxCreator = 'user_'+ac[:repository][:creator][:id].to_s+'_activ_feed';
+            @title = getTitle(ac)
+            REDIS.lpush(@auxCreator,  ({title:@title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: Time.zone.now.to_s(:short)}).to_json)
+            @users = ac[:repository][:users]
             @users.each do |user|
-                @aux = 'user_'+user.user_id.to_s+'_activi_feed';
-                title = getTitle(ac)
-                REDIS.lpush(@aux,  ({title:title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: Time.zone.now.to_s(:short)}).to_json)
+                @aux = 'user_'+user[:id].to_s+'_activ_feed';
+                REDIS.lpush(@aux,  ({title: @title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: Time.zone.now.to_s(:short)}).to_json)
             end
         end
         redirect_to '/home'
     end
 
     def getTitle(activity)
+        p "holaaaa"
+        p activity
         case activity[:type]
         when 1
-            return activity[:user][:username] + " pushed to " + activity[:repository][:name].gsub(/\s+/, "").downcase
+            return activity[:user][:username] + " pushed to " + activity[:repository][:creator][:username].gsub(/\s+/, "").downcase+"/"+activity[:repository][:name].gsub(/\s+/, "").downcase
         when 2
-            return activity[:user][:username] + " followed " + activity[:repository][:name].gsub(/\s+/, "").downcase
+            return activity[:user][:username] + " followed " + activity[:repository][:creator][:username].gsub(/\s+/, "").downcase+"/"+activity[:repository][:name].gsub(/\s+/, "").downcase
         when 3
-            return activity[:user][:username] + " ha creado el repositorio " + activity[:repository][:name].gsub(/\s+/, "").downcase #tengo que mandarle el nombre o lo busco en la bdd?
+            return activity[:user][:username] + " ha creado el repositorio " + activity[:repository][:creator][:username].gsub(/\s+/, "").downcase+"/"+activity[:repository][:name].gsub(/\s+/, "").downcase
         else
         end
     end
@@ -72,57 +75,91 @@ class ActivitiesController < ApplicationController
             {
                 repository:{
                     id: 1, 
-                    name:"Repo Mavi"
-                },
-                user:{
+                    name:"Repo Mavi",
+                    creator:   
+                    {
                     id: 1, 
                     name: "Maria Victoria",
                     surname: "Martínez",
                     email: "maavimartinez@gmail.com",
                     username: "maavimartinez"
                 },
+                users:[
+
+                ]
+                },
+                user:{id: 1, 
+                name: "Maria Victoria",
+                surname: "Martínez",
+                email: "maavimartinez@gmail.com",
+                username: "maavimartinez",
+            },
                 description: "",
                 type: 3
             },
             {
-                repository:{id: 1, 
-                name:"Repo Mavi"
+                repository:{
+                    id: 1, 
+                    name:"Repo Mavi",
+                    creator:{
+                        id: 1, 
+                        name: "Maria Victoria",
+                        surname: "Martínez",
+                        email: "maavimartinez@gmail.com",
+                        username: "maavimartinez"
+                    },
+                    users:[],
+                },
+                user:{id: 1, 
+                name: "Maria Victoria",
+                surname: "Martínez",
+                email: "maavimartinez@gmail.com",
+                username: "maavimartinez",
             },
-            user:{
+               
+                description: "1 commit to develop",
+                type: 1
+            },
+            {
+                repository:{
+                    id: 1, 
+                    name:"Repo Mavi",
+                    creator:{
                 id: 1, 
                 name: "Maria Victoria",
                 surname: "Martínez",
                 email: "maavimartinez@gmail.com",
-                username: "maavimartinez"
-            },
-            description: "1 commit to develop",
-            type: 1
-        },
-        {
-            repository:{id: 1, 
-            name:"Repo Mavi"
-        },
-            description: "Maria Victoria ha realizado un nuevo commit",
-            user:{
-                id: 1, 
+                username: "maavimartinez",
+                
+            },users:[]
+                },
+                user:{id: 1, 
                 name: "Maria Victoria",
                 surname: "Martínez",
                 email: "maavimartinez@gmail.com",
-                username: "maavimartinez"
+                username: "maavimartinez",
             },
             description: "1 commit to develop",
             type: 1
         },
         {
             repository:{id: 2, 
-            name:"Repo Juan"
-        },
-            user:{
-                id: 1, 
+            name:"Repo Juan",
+            creator:{
+                id: 2, 
                 name: "Juan",
                 surname: "Drets",
                 email: "jdrets@hotmail.com",
                 username: "juandrets"
+            },
+            users:[],
+        },
+        user:{
+            id: 2, 
+            name: "Juan",
+            surname: "Drets",
+            email: "jdrets@hotmail.com",
+            username: "juandrets"
             },
             description: "1 commit to develop",
             type: 1
@@ -130,7 +167,30 @@ class ActivitiesController < ApplicationController
         {
             repository:{
                 id: 3, 
-                name:"Repo Pale"
+                name:"Repo Pale",
+                creator:{
+                id: 3, 
+                name: "Federico",
+                surname: "Palermo",
+                email: "pale99@gmail.com",
+                username: "pale99"
+            },
+            users:[
+                {
+                id: 2, 
+                name: "Juan",
+                surname: "Drets",
+                email: "jdrets@hotmail.com",
+                username: "jdrets"
+            },
+            {
+                id: 1, 
+                name: "Maria Victoria",
+                surname: "Martínez",
+                email: "maavimartinez@gmail.com",
+                username: "maavimartinez"
+            }
+            ],
             },
             user:{
                 id: 1, 
@@ -144,22 +204,69 @@ class ActivitiesController < ApplicationController
         },
         {
             repository:{id: 3, 
-            name:"Repo Pale"
+            name:"Repo Pale",
+            creator:{
+                id: 3, 
+                name: "Federico",
+                surname: "Palermo",
+                email: "pale99@gmail.com",
+                username: "pale99"
+            },
+            users:[
+                {
+                id: 1, 
+                name: "Maria Victoria",
+                surname: "Martinez",
+                email: "maavimartinez@gmail.com",
+                username: "maavimartinez"
+        },
+        {
+                id: 2, 
+                name: "Juan",
+                surname: "Drets",
+                email: "jdrets@hotmail.com",
+                username: "juandrets"
+            }
+            ],
         },
             user:{
-                id: 1, 
+                id: 2, 
                 name: "Juan",
                 surname: "Drets",
                 email: "jdrets@hotmail.com",
                 username: "juandrets"
             },
+            
             description: "Repositorio : RepoPale",
             type: 2
         },
         {
             repository:{
                 id: 3, 
-                name:"Repo Pale"
+                name:"Repo Pale",
+                creator:{
+                    id: 3, 
+                    name: "Federico",
+                    surname: "Palermo",
+                    email: "pale99@gmail.com",
+                    username: "pale99"
+                },
+                users:[
+                    {
+                        id: 1, 
+                        name: "Maria Victoria",
+                        surname: "Martinez",
+                        email: "maavimartinez@gmail.com",
+                        username: "maavimartinez"
+                    },
+                    {
+                        id: 2, 
+                        name: "Juan",
+                        surname: "Drets",
+                        email: "jdrets@hotmail.com",
+                        username: "juandrets"
+                    }
+                ]
             }, 
             user:{
                 id: 1, 
