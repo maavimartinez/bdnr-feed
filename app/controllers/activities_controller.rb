@@ -12,7 +12,7 @@ class ActivitiesController < ApplicationController
         @aux = {name: @repo.name, description: @repo.description, creator: @us.name + " " + @us.surname}
         @repos.push(@aux)
       end
-      aux = 'user_'+@current_user['id'].to_s+'_activ_feed';
+      aux = 'user_'+@current_user['id'].to_s+'_a_feed';
       @act = REDIS.lrange(aux, 0, REDIS.llen(aux))
       @activities = Array.new
       @act.each do |ac|
@@ -24,13 +24,13 @@ class ActivitiesController < ApplicationController
     def fill     
         @json = get_json()
         @json.each do |ac|
-            @auxCreator = 'user_'+ac[:repository][:creator][:id].to_s+'_activ_feed';
+            @auxCreator = 'user_'+ac[:repository][:creator][:id].to_s+'_a_feed';
             @title = getTitle(ac)
-            REDIS.lpush(@auxCreator,  ({title:@title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: Time.zone.now.to_s(:short)}).to_json)
+            REDIS.lpush(@auxCreator,  ({title:@title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: ac[:date]}).to_json)
             @users = ac[:repository][:users]
             @users.each do |user|
-                @aux = 'user_'+user[:id].to_s+'_activ_feed';
-                REDIS.lpush(@aux,  ({title: @title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: Time.zone.now.to_s(:short)}).to_json)
+                @aux = 'user_'+user[:id].to_s+'_a_feed';
+                REDIS.lpush(@aux,  ({title: @title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: ac[:date]}).to_json)
             end
         end
         redirect_to '/home'
@@ -95,6 +95,7 @@ class ActivitiesController < ApplicationController
                 username: "maavimartinez",
             },
                 description: "",
+                date: "28/06/2020 13:33",
                 type: 3
             },
             {
@@ -116,7 +117,7 @@ class ActivitiesController < ApplicationController
                 email: "maavimartinez@gmail.com",
                 username: "maavimartinez",
             },
-               
+                date: "28/06/2020 14:13",
                 description: "1 commit to develop",
                 type: 1
             },
@@ -139,6 +140,7 @@ class ActivitiesController < ApplicationController
                 email: "maavimartinez@gmail.com",
                 username: "maavimartinez",
             },
+            date: "28/06/2020 20:20",
             description: "1 commit to develop",
             type: 1
         },
@@ -162,6 +164,7 @@ class ActivitiesController < ApplicationController
             username: "juandrets"
             },
             description: "1 commit to develop",
+            date: "29/06/2020 04:20",
             type: 1
         },
         {
@@ -199,6 +202,7 @@ class ActivitiesController < ApplicationController
                 email: "maavimartinez@gmail.com",
                 username: "maavimartinez"
             },
+            date: "29/06/2020 11:00",
             description: "Repositorio : RepoPale",
             type: 2
         },
@@ -236,7 +240,7 @@ class ActivitiesController < ApplicationController
                 email: "jdrets@hotmail.com",
                 username: "juandrets"
             },
-            
+            date: "29/06/2020 18:18",
             description: "Repositorio : RepoPale",
             type: 2
         },
@@ -275,6 +279,7 @@ class ActivitiesController < ApplicationController
                 email: "pale99@gmail.com",
                 username: "pale99"
             },
+            date: "01/07/2020 08:15",
             description: "1 commit to develop",
             type: 1
         }
