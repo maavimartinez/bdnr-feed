@@ -14,11 +14,6 @@ class ActivitiesController < ApplicationController
       end
       aux = 'user_'+@current_user['id'].to_s+'_a_feed';
       @act = REDIS.lrange(aux, 0, REDIS.llen(aux))
-      @show = false
-      p @act
-      if @act.length==0 
-        @show = true 
-      end
       @activities = Array.new
       @act.each do |ac|
         ret = JSON.parse(ac)
@@ -31,11 +26,11 @@ class ActivitiesController < ApplicationController
         @json.each do |ac|
             @auxCreator = 'user_'+ac[:repository][:creator][:id].to_s+'_a_feed';
             @title = getTitle(ac)
-            REDIS.lpush(@auxCreator,  ({title:@title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: ac[:date]}).to_json)
+            REDIS.lpush(@auxCreator,  ({title:@title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: ac[:date].strftime("%k:%M %d/%m/%Y"),}).to_json)
             @users = ac[:repository][:users]
             @users.each do |user|
                 @aux = 'user_'+user[:id].to_s+'_a_feed';
-                REDIS.lpush(@aux,  ({title: @title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: ac[:date]}).to_json)
+                REDIS.lpush(@aux,  ({title: @title, repository: ac[:repository][:name], description:ac[:description], type: ac[:type], date: ac[:date].strftime("%k:%M %d/%m/%Y"),}).to_json)
             end
         end
         redirect_to '/home'
@@ -100,7 +95,7 @@ class ActivitiesController < ApplicationController
                 username: "maavimartinez",
             },
                 description: "",
-                date: "28/06/2020 13:33",
+                date: (Time.zone.now - 3.day),
                 type: 3
             },
             {
@@ -122,7 +117,7 @@ class ActivitiesController < ApplicationController
                 email: "maavimartinez@gmail.com",
                 username: "maavimartinez",
             },
-                date: "28/06/2020 14:13",
+                date: (Time.zone.now - 2.day),
                 description: "1 commit to develop",
                 type: 1
             },
@@ -145,7 +140,7 @@ class ActivitiesController < ApplicationController
                 email: "maavimartinez@gmail.com",
                 username: "maavimartinez",
             },
-            date: "28/06/2020 20:20",
+            date: (Time.zone.now - 2.day),
             description: "1 commit to develop",
             type: 1
         },
@@ -169,7 +164,7 @@ class ActivitiesController < ApplicationController
             username: "juandrets"
             },
             description: "1 commit to develop",
-            date: "29/06/2020 04:20",
+            date: (Time.zone.now - 1.day),
             type: 1
         },
         {
@@ -207,7 +202,7 @@ class ActivitiesController < ApplicationController
                 email: "maavimartinez@gmail.com",
                 username: "maavimartinez"
             },
-            date: "29/06/2020 11:00",
+            date: (Time.zone.now - 16.hour),
             description: "Repositorio : RepoPale",
             type: 2
         },
@@ -245,7 +240,7 @@ class ActivitiesController < ApplicationController
                 email: "jdrets@hotmail.com",
                 username: "juandrets"
             },
-            date: "29/06/2020 18:18",
+            date: (Time.zone.now - 10.hour),
             description: "Repositorio : RepoPale",
             type: 2
         },
@@ -284,7 +279,7 @@ class ActivitiesController < ApplicationController
                 email: "pale99@gmail.com",
                 username: "pale99"
             },
-            date: "01/07/2020 08:15",
+            date: (Time.zone.now),
             description: "1 commit to develop",
             type: 1
         }
