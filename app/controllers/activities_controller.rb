@@ -14,6 +14,8 @@ class ActivitiesController < ApplicationController
       end
       aux = 'user_'+@current_user['id'].to_s+'_a_feed';
       @act = REDIS.lrange(aux, 0, REDIS.llen(aux))
+      @show = false
+      if(@act!=[]) @show = true 
       @activities = Array.new
       @act.each do |ac|
         ret = JSON.parse(ac)
